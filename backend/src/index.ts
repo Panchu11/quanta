@@ -73,4 +73,6 @@ httpServer.listen(PORT, "0.0.0.0", () => {
   `);
 });
 
+// Export for Vercel serverless
+export default app;
 export { io };
