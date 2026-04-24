@@ -13,9 +13,13 @@ import { EventBus } from "./services/event-bus.js";
 const app = express();
 const httpServer = createServer(app);
 
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
+  .split(",")
+  .map((s) => s.trim());
+
 const io = new SocketServer(httpServer, {
   cors: {
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
   },
 });
@@ -25,7 +29,7 @@ export const eventBus = new EventBus(io);
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: allowedOrigins,
     credentials: true,
   })
 );
@@ -57,7 +61,7 @@ io.on("connection", (socket) => {
 
 const PORT = parseInt(process.env.PORT || "4021", 10);
 
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, "0.0.0.0", () => {
   console.log(`
   ╔══════════════════════════════════════════╗
   ║     QUANTA — Pay-Per-Insight Engine      ║

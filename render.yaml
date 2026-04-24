@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: quanta-backend
+    runtime: node
+    region: oregon
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "4021"
+      - key: CIRCLE_API_KEY
+        sync: false
+      - key: CIRCLE_ENTITY_SECRET
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FEATHERLESS_API_KEY
+        sync: false
+      - key: AIML_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
